@@ -11,11 +11,11 @@ Gem::Specification.new do |s|
   s.authors = ["Greg Merritt"]
   s.email = ["gremerritt@gmail.com"]
 
-  s.add_dependency "json"
+  s.add_dependency "json", "~> 1.8"
 
-  s.add_development_dependency "minitest", "~> 4.3.2"
-  s.add_development_dependency "rake"
-  s.add_development_dependency "test-unit"
+  s.add_development_dependency "minitest", "~> 4.3"
+  s.add_development_dependency "rake", "~> 11.2"
+  s.add_development_dependency "test-unit", "~> 3.2"
 
   s.homepage = "http://www.dropbox.com/developers/"
   s.summary = "Dropbox REST API Client for API V2."
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   EOF
 
   s.files = [
-    "CHANGELOG", "LICENSE", "README", "Rakefile",
+    "CHANGELOG", "LICENSE", "README.md", "Rakefile",
     "examples/cli_example.rb", "examples/dropbox_controller.rb", "examples/web_file_browser.rb",
     "examples/copy_between_accounts.rb", "examples/chunked_upload.rb", "examples/oauth1_upgrade.rb",
     "examples/search_cache.rb",
