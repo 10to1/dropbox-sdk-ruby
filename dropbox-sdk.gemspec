@@ -3,23 +3,22 @@
 # gem push dropbox-sdk-x.x.x.gem
 
 Gem::Specification.new do |s|
-  s.name = "dropbox-sdk"
+  s.name = "dropbox-sdk-v2"
 
-  s.version = "1.6.5"
+  s.version = "1.0.0"
   s.license = 'MIT'
 
-  s.authors = ["Dropbox, Inc."]
-  s.email = ["support-api@dropbox.com"]
+  s.authors = ["Greg Merritt"]
+  s.email = ["gremerritt@gmail.com"]
 
   s.add_dependency "json"
 
   s.add_development_dependency "minitest", "~> 4.3.2"
   s.add_development_dependency "rake"
   s.add_development_dependency "test-unit"
-  s.add_development_dependency "test-unit", "~> 3.1.2"
 
   s.homepage = "http://www.dropbox.com/developers/"
-  s.summary = "Dropbox REST API Client."
+  s.summary = "Dropbox REST API Client for API V2."
   s.description = <<-EOF
     A library that provides a plain function-call interface to the
     Dropbox API web endpoints.

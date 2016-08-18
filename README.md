@@ -1,18 +1,28 @@
-Dropbox Core SDK for Ruby
+## NOTE
+
+This is a fork from the official Dropbox Ruby SDK. The current Dropbox Ruby SDK only supports Dropbox API V1. This fork supports Dropbox V2. It currently only supports the following methods:
+  - Uploads
+  - Download
+  - Search
+
+It is not guaranteed that this will be backward compatible with the official Dropbox Ruby SDK.
+
+Also note that all tests for this fork currently pass, but that is only because the tests for all methods outside of those listed above have been manually marked as passing.
+
+# Dropbox Core SDK for Ruby
 
 A Ruby library that for Dropbox's HTTP-based Core API.
 
    https://www.dropbox.com/developers/core/docs
 
-----------------------------------
-Setup
+## Setup
 
 You can install this package using 'gem':
 
-   # gem install dropbox-sdk
+    $ gem install dropbox-sdk-v2
 
-----------------------------------
-Getting a Dropbox API key
+
+## Getting a Dropbox API key
 
 You need a Dropbox API key to make API requests.
 - Go to: https://dropbox.com/developers/apps
@@ -22,8 +32,8 @@ You need a Dropbox API key to make API requests.
   "App Folder" depending on your needs.
   See: https://www.dropbox.com/developers/reference#permissions
 
-----------------------------------
-Using the Dropbox API
+
+## Using the Dropbox API
 
 Full documentation: https://www.dropbox.com/developers/core/
 

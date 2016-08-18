@@ -20,8 +20,8 @@ module Dropbox # :nodoc:
     :web => WEB_SERVER
   }
 
-  API_VERSION = 1
-  SDK_VERSION = "1.6.5"
+  API_VERSION = 2
+  SDK_VERSION = "1.6.5-v2-fork"
 
   TRUSTED_CERT_FILE = File.join(File.dirname(__FILE__), 'trusted-certs.crt')
 
@@ -190,7 +190,10 @@ class DropboxSessionBase # :nodoc:
   def do_http_with_body(uri, request, body)
     if body != nil
       if body.is_a?(Hash)
+        # I don't understand why set_form_data wipes the content_type val
+        content_type = request.content_type
         request.set_form_data(Dropbox::clean_params(body))
+        request.content_type = (content_type.nil?) ? "" : content_type
       elsif body.respond_to?(:read)
         if body.respond_to?(:length)
           request["Content-Length"] = body.length.to_s
@@ -213,7 +216,6 @@ class DropboxSessionBase # :nodoc:
     params ||= {}
     assert_authorized
     uri = build_url(path, server)
-    params['locale'] = @locale
     do_http_with_body(uri, Net::HTTP::Post.new(uri.request_uri, headers), params)
   end
 
@@ -812,15 +814,18 @@ class DropboxClient
   # This will upload the "/tmp/test_file" from my computer into the root of my App's app folder
   # and call it "test_file_on_dropbox".
   # The file will not overwrite any pre-existing file.
-  def put_file(to_path, file_obj, overwrite=false, parent_rev=nil)
-    path = "/files_put/#{@root}#{format_path(to_path)}"
+  def upload(to_path, file_obj, mode='add')
+    path = "/files/upload"
     params = {
-      'overwrite' => overwrite.to_s,
-      'parent_rev' => parent_rev,
+      'path' => to_path,
+      'mode' => mode,
+      'autorename' => false,
+      'mute' => false
     }
 
-    headers = {"Content-Type" => "application/octet-stream"}
-    response = @session.do_put path, params, headers, file_obj, :content
+    headers = {"Content-Type" => "application/octet-stream",
+               "Dropbox-API-Arg" => params.to_json}
+    response = @session.do_post path, file_obj, headers, :content
 
     Dropbox::parse_response(response)
   end
@@ -945,43 +950,27 @@ class DropboxClient
   #
   # Returns:
   # * The file contents.
+  # GEM 8/18/2016 - DEPRECIATED
   def get_file(from_path, rev=nil)
     response = get_file_impl(from_path, rev)
     Dropbox::parse_response(response, raw=true)
   end
 
-  # Download a file and get its metadata.
+  # Download a file
   #
   # Args:
   # * +from_path+: The path to the file to be downloaded
-  # * +rev+: A previous revision value of the file to be downloaded
   #
   # Returns:
-  # * The file contents.
-  # * The file metadata as a hash.
-  def get_file_and_metadata(from_path, rev=nil)
-    response = get_file_impl(from_path, rev)
+  # * The HTTPResponse for the file download request.
+  def download from_path # :nodoc:
+    path = "/files/download"
+    headers = {"Dropbox-API-Arg" => {'path' => from_path}.to_json}
+    response = @session.do_post path, nil, headers, :content
     parsed_response = Dropbox::parse_response(response, raw=true)
     metadata = parse_metadata(response)
     return parsed_response, metadata
   end
-
-  # Download a file (helper method - don't call this directly).
-  #
-  # Args:
-  # * +from_path+: The path to the file to be downloaded
-  # * +rev+: A previous revision value of the file to be downloaded
-  #
-  # Returns:
-  # * The HTTPResponse for the file download request.
-  def get_file_impl(from_path, rev=nil) # :nodoc:
-    path = "/files/#{@root}#{format_path(from_path)}"
-    params = {
-      'rev' => rev,
-    }
-    @session.do_get path, params, :content
-  end
-  private :get_file_impl
 
   # Parses out file metadata from a raw dropbox HTTP response.
   #
@@ -992,10 +981,10 @@ class DropboxClient
   # * The metadata of the file as a hash.
   def parse_metadata(dropbox_raw_response) # :nodoc:
     begin
-      raw_metadata = dropbox_raw_response['x-dropbox-metadata']
+      raw_metadata = dropbox_raw_response['dropbox-api-result']
       metadata = JSON.parse(raw_metadata)
-    rescue
-      raise DropboxError.new("Dropbox Server Error: x-dropbox-metadata=#{raw_metadata}",
+    rescue StandardError => msg
+      raise DropboxError.new("Dropbox Server Error: dropbox-api-result=#{raw_metadata}",
                              dropbox_raw_response)
     end
     metadata
@@ -1139,14 +1128,17 @@ class DropboxClient
   # * A Hash object with a list the metadata of the file or folders matching query
   #   inside path.  For a detailed description of what this call returns, visit:
   #   https://www.dropbox.com/developers/reference/api#search
-  def search(path, query, file_limit=1000, include_deleted=false)
+  def search(path, query, file_limit=1000)
     params = {
+      'path' => path,
       'query' => query,
-      'file_limit' => file_limit.to_s,
-      'include_deleted' => include_deleted.to_s
-    }
+      'start' => 0,
+      'max_results' => file_limit,
+      'mode' => 'filename'
+    }.to_json
+    headers = {"Content-Type" => "application/json"}
 
-    response = @session.do_get "/search/#{@root}#{format_path(path)}", params
+    response = @session.do_post "/files/search", params, headers
     Dropbox::parse_response(response)
   end
 
