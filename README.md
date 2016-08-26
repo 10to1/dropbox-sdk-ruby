@@ -19,7 +19,7 @@ A Ruby library that for Dropbox's HTTP-based Core API.
 
 You can install this package using 'gem':
 
-    $ gem install dropbox-sdk-v2
+    $ gem install dropbox-sdk-forked_v2
 
 
 ## Getting a Dropbox API key

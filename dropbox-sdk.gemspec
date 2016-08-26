@@ -3,7 +3,7 @@
 # gem push dropbox-sdk-x.x.x.gem
 
 Gem::Specification.new do |s|
-  s.name = "dropbox-sdk-v2"
+  s.name = "dropbox-sdk-forked_v2"
 
   s.version = "1.0.0"
   s.license = 'MIT'
