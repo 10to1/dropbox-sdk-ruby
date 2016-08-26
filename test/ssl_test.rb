@@ -1,5 +1,5 @@
 require "test/unit"
-require "../lib/dropbox_sdk"
+require "../lib/dropbox_sdk_v2"
 
 class SSLTest < Test::Unit::TestCase
 
