@@ -29,6 +29,6 @@ Gem::Specification.new do |s|
     "examples/cli_example.rb", "examples/dropbox_controller.rb", "examples/web_file_browser.rb",
     "examples/copy_between_accounts.rb", "examples/chunked_upload.rb", "examples/oauth1_upgrade.rb",
     "examples/search_cache.rb",
-    "lib/dropbox_sdk.rb", "lib/trusted-certs.crt",
+    "lib/dropbox_sdk_v2.rb", "lib/trusted-certs.crt",
   ]
 end
