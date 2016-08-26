@@ -5,7 +5,7 @@
 Gem::Specification.new do |s|
   s.name = "dropbox-sdk-forked_v2"
 
-  s.version = "1.0.0"
+  s.version = "1.0.1"
   s.license = 'MIT'
 
   s.authors = ["Greg Merritt"]
