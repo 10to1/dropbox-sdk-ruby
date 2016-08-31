@@ -1106,8 +1106,21 @@ class DropboxClient
       "rev" => rev,
       "include_media_info" => include_media_info
     }
-
     response = @session.do_get "/metadata/#{@root}#{format_path(path)}", params
+    if response.kind_of? Net::HTTPRedirection
+      raise DropboxNotModified.new("metadata not modified")
+    end
+    Dropbox::parse_response(response)
+  end
+
+  def get_metadata_from_file(path, file_limit=25000, list=true, hash=nil, rev=nil, include_deleted=false, include_media_info=false, include_has_explicit_shared_members=false)
+    params = {
+      "path" => path,
+      "include_deleted" => include_deleted.to_s,
+      "include_has_explicit_shared_members"=> include_has_explicit_shared_members.to_s,
+      "include_media_info" => include_media_info
+    }
+    response = @session.do_get "/2/files/get_metadata", params
     if response.kind_of? Net::HTTPRedirection
       raise DropboxNotModified.new("metadata not modified")
     end
