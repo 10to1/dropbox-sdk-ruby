@@ -445,7 +445,7 @@ class DropboxOAuth2FlowBase  # :nodoc:
     }
 
     host = Dropbox::WEB_SERVER
-    path = "/#{Dropbox::API_VERSION}/oauth2/authorize"
+    path = "/oauth2/authorize"
 
     target = URI::Generic.new("https", nil, host, nil, nil, path, nil, nil, nil)
     target.query = Dropbox::make_query_string(params)
