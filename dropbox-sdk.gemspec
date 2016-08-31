@@ -3,13 +3,13 @@
 # gem push dropbox-sdk-x.x.x.gem
 
 Gem::Specification.new do |s|
-  s.name = "dropbox-sdk-forked_v2"
+  s.name = "dropbox-sdk-ruby-api-v2"
 
-  s.version = "1.0.1"
+  s.version = "1.0.0"
   s.license = 'MIT'
 
-  s.authors = ["Greg Merritt"]
-  s.email = ["gremerritt@gmail.com"]
+  s.authors = ["Lenny Donnez"]
+  s.email = ["lenny.donnez@gmail.com"]
 
   s.add_dependency "json", "~> 1.8"
 
