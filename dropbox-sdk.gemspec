@@ -3,7 +3,7 @@
 # gem push dropbox-sdk-x.x.x.gem
 
 Gem::Specification.new do |s|
-  s.name = "dropbox-sdk-ruby-api-v2"
+  s.name = "dropbox-sdk-ruby_v2"
 
   s.version = "1.0.0"
   s.license = 'MIT'
@@ -29,6 +29,6 @@ Gem::Specification.new do |s|
     "examples/cli_example.rb", "examples/dropbox_controller.rb", "examples/web_file_browser.rb",
     "examples/copy_between_accounts.rb", "examples/chunked_upload.rb", "examples/oauth1_upgrade.rb",
     "examples/search_cache.rb",
-    "lib/dropbox_sdk_v2.rb", "lib/trusted-certs.crt",
+    "lib/dropbox-sdk_v2.rb", "lib/trusted-certs.crt",
   ]
 end
