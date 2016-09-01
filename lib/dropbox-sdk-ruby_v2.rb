@@ -1120,7 +1120,7 @@ class DropboxClient
       "include_has_explicit_shared_members"=> include_has_explicit_shared_members.to_s,
       "include_media_info" => include_media_info
     }
-    response = @session.do_get "/files/get_metadata", params
+    response = @session.do_post "/files/get_metadata", params
     if response.kind_of? Net::HTTPRedirection
       raise DropboxNotModified.new("metadata not modified")
     end
