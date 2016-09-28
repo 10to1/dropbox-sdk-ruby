@@ -6,7 +6,6 @@ require 'yaml'
 require 'base64'
 require 'securerandom'
 require 'pp'
-require 'pry'
 
 module Dropbox # :nodoc:
   API_SERVER = "api.dropboxapi.com"
